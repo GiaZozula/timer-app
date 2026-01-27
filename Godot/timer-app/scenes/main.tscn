@@ -3,7 +3,9 @@
 [ext_resource type="Script" uid="uid://bnwpysmdnjtis" path="res://scripts/core/main.gd" id="1_jyhfs"]
 [ext_resource type="Script" uid="uid://c4dfx7vyx64je" path="res://scripts/core/TimerController.gd" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://d01jwr4g2s6vx" path="res://scenes/ui/SetupScreen.tscn" id="2_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://c2rig1h3try4q" path="res://scenes/animation/CatScene.tscn" id="3_o6xl0"]
 [ext_resource type="Script" uid="uid://dohslqwjte4f" path="res://scripts/ui/SetupScreen.gd" id="3_sugp2"]
+[ext_resource type="Script" uid="uid://bx5vf5qqgnswn" path="res://scripts/core/ThemeController.gd" id="3_tipki"]
 [ext_resource type="PackedScene" uid="uid://f0f7ynvy8vt2" path="res://scenes/ui/RunScreen.tscn" id="5_tbgi4"]
 [ext_resource type="Script" uid="uid://dbxrhjpfu6cwc" path="res://scripts/ui/RunScreen.gd" id="6_tefeu"]
 
@@ -14,8 +16,13 @@ script = ExtResource("1_jyhfs")
 script = ExtResource("1_o5qli")
 
 [node name="ThemeController" type="Node" parent="." unique_id=459119740]
+script = ExtResource("3_tipki")
 
 [node name="AudioController" type="Node" parent="." unique_id=1536974650]
+
+[node name="AnimationRoot" type="Node2D" parent="." unique_id=1294286516]
+
+[node name="CatScene" parent="AnimationRoot" unique_id=1754846696 instance=ExtResource("3_o6xl0")]
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1223684271]
 
@@ -64,5 +71,3 @@ theme_override_font_sizes/font_size = 40
 text = "00:00"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="AnimationRoot" type="Node2D" parent="." unique_id=1294286516]

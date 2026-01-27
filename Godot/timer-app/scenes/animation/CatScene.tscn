@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://c2rig1h3try4q"]
+
+[ext_resource type="Script" uid="uid://b6js2id1ksxqd" path="res://scripts/animation/AnimationController.gd" id="1_go0c8"]
+
+[node name="CatScene" type="Node2D" unique_id=1754846696]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2048319092]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1818717183]
+root_node = NodePath("../Sprite2D")
+
+[node name="AnimationController" type="Node" parent="." unique_id=1937099692]
+script = ExtResource("1_go0c8")
