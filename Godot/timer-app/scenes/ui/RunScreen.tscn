@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://f0f7ynvy8vt2"]
+
+[node name="RunScreen" type="Control" unique_id=986875311]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
