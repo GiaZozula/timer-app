@@ -1,0 +1,14 @@
+{
+  "name": "Cat Garden",
+  "idle": "idle",
+  "events": ["walk", "play"],
+  "outro": "sleep",
+  "event_interval": {
+	"min": 20,
+	"max": 40
+  },
+  "audio": {
+	"bg": "birds.ogg",
+	"outro": "bell.ogg"
+  }
+}
