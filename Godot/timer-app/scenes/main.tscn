@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://c2ak87o5c12ym"]
+
+[ext_resource type="Script" uid="uid://c4dfx7vyx64je" path="res://scripts/core/TimerController.gd" id="1_o5qli"]
+
+[node name="Main" type="Node" unique_id=1691925178]
+
+[node name="TimerController" type="Node" parent="." unique_id=1717870548]
+script = ExtResource("1_o5qli")
