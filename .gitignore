@@ -1,0 +1,11 @@
+# Cursor (user-specific rules)
+.cursor/rules
+
+# VS Code / Cursor (user-specific settings)
+.vscode/
+
+# macOS
+.DS_Store
+
+# Godot (in case you run from repo root; Godot/timer-app has its own)
+.godot/

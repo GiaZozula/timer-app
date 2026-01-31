@@ -1,5 +1,10 @@
 extends Node
 
+## Standard font sizes (points) shared across all themes. Not theme-specific.
+const FONT_SIZE_TITLE := 28
+const FONT_SIZE_BODY := 18
+const FONT_SIZE_TIMER := 96
+
 var theme_data: Dictionary = {}
 
 func load_theme(path: String):
@@ -54,3 +59,15 @@ func get_audio_bg() -> String:
 
 func get_audio_outro() -> String:
 	return theme_data.get("audio", {}).get("outro", "")
+
+
+func get_font_size(font_key: String) -> int:
+	match font_key:
+		"title":
+			return FONT_SIZE_TITLE
+		"body":
+			return FONT_SIZE_BODY
+		"timer":
+			return FONT_SIZE_TIMER
+		_:
+			return FONT_SIZE_BODY
