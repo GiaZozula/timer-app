@@ -5,7 +5,7 @@ extends Node
 @onready var run_screen = $UI/SafeAreaRoot/RunScreen
 @onready var setup_screen = $UI/SafeAreaRoot/SetupScreen
 @onready var debug_menu = $UI/DebugMenu
-@onready var animation_controller = $AnimationRoot/CatScene/AnimationController
+@onready var animation_controller = $UI/SafeAreaRoot/RunScreen/VBoxContainer/AnimationArea/SubViewport/CatScene/AnimationController
 
 
 func _ready():
@@ -32,6 +32,7 @@ func _on_start_pressed(duration_seconds: float, outro_enabled: bool) -> void:
 	setup_screen.visible = false
 	run_screen.visible = true
 
+	animation_controller.play_idle()
 	timer_controller.start_timer(
 		duration_seconds,
 		theme_controller.get_event_interval_min(),

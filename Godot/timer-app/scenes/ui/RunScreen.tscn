@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://f0f7ynvy8vt2"]
 
 [ext_resource type="Script" path="res://scripts/ui/RunScreen.gd" id="1_run"]
+[ext_resource type="PackedScene" uid="uid://c2rig1h3try4q" path="res://scenes/animation/CatScene.tscn" id="2_cat"]
 
 [node name="RunScreen" type="Control"]
 layout_mode = 3
@@ -45,7 +46,12 @@ text = "00:00"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AnimationArea" type="Control" parent="VBoxContainer"]
+[node name="AnimationArea" type="SubViewportContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
+
+[node name="SubViewport" type="SubViewport" parent="VBoxContainer/AnimationArea"]
+handle_input_locally = false
+
+[node name="CatScene" parent="VBoxContainer/AnimationArea/SubViewport" instance=ExtResource("2_cat")]
