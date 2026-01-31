@@ -37,15 +37,35 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_constants/separation = 12
 
+[node name="HoursLabel" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Hours:"
+
+[node name="HoursSpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+min_value = 0.0
+max_value = 24.0
+value = 0.0
+
 [node name="MinutesLabel" type="Label" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Minutes:"
 
 [node name="MinutesSpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
-min_value = 1.0
-max_value = 60.0
+min_value = 0.0
+max_value = 59.0
 value = 5.0
+
+[node name="SecondsLabel" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Seconds:"
+
+[node name="SecondsSpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+min_value = 0.0
+max_value = 59.0
+value = 0.0
 
 [node name="StartButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2

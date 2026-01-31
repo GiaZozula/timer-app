@@ -37,7 +37,8 @@ func _apply_scaled_fonts() -> void:
 
 
 func update_time(remaining_seconds: float) -> void:
-	var seconds: int = int(remaining_seconds)
-	var minutes: int = int(seconds / 60.0)
-	var secs: int = seconds % 60
-	time_label.text = "%02d:%02d" % [minutes, secs]
+	var total_secs: int = int(remaining_seconds)
+	var hours: int = int(total_secs / 3600.0)
+	var minutes: int = int((total_secs % 3600) / 60.0)
+	var secs: int = total_secs % 60
+	time_label.text = "%d:%02d:%02d" % [hours, minutes, secs]
