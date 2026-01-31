@@ -1,0 +1,8 @@
+[
+  {
+    "id": "cat_garden",
+    "display_name": "Cat Garden",
+    "theme_path": "res://themes/cat_garden.theme.json",
+    "scene_path": "res://scenes/animation/CatScene.tscn"
+  }
+]

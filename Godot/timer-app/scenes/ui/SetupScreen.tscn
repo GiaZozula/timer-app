@@ -33,6 +33,22 @@ layout_mode = 2
 text = "Set Timer"
 horizontal_alignment = 1
 
+[node name="AnimationThemeRow" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="AnimationLabel" type="Label" parent="VBoxContainer/AnimationThemeRow"]
+layout_mode = 2
+text = "Animation:"
+
+[node name="AnimationThemeLabel" type="Label" parent="VBoxContainer/AnimationThemeRow"]
+layout_mode = 2
+text = "Cat Garden"
+
+[node name="ChangeThemeButton" type="Button" parent="VBoxContainer/AnimationThemeRow"]
+layout_mode = 2
+text = "Change"
+
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 12

@@ -1,9 +1,11 @@
 extends Control
 
 var _theme_controller: Node = null
+var _animation_controller: Node = null
 
 @onready var time_label = $VBoxContainer/TimerStrip/CenterContainer/TimeLabel
 @onready var timer_strip = $VBoxContainer/TimerStrip
+@onready var viewport = $VBoxContainer/AnimationArea/SubViewport
 
 
 func _ready() -> void:
@@ -34,6 +36,36 @@ func _apply_scaled_fonts() -> void:
 	var font_size := int(base_timer * scale_factor)
 	time_label.add_theme_font_size_override("font_size", font_size)
 	timer_strip.custom_minimum_size.y = int(font_size * 1.6)
+
+
+func set_animation_scene(scene_path: String) -> void:
+	for child in viewport.get_children():
+		child.queue_free()
+	_animation_controller = null
+
+	var packed: PackedScene = load(scene_path) as PackedScene
+	if not packed:
+		return
+	var instance: Node = packed.instantiate()
+	viewport.add_child(instance)
+	var ctrl = instance.get_node_or_null("AnimationController")
+	if ctrl:
+		_animation_controller = ctrl
+
+
+func play_idle() -> void:
+	if _animation_controller and _animation_controller.has_method("play_idle"):
+		_animation_controller.play_idle()
+
+
+func play_event() -> void:
+	if _animation_controller and _animation_controller.has_method("play_event"):
+		_animation_controller.play_event()
+
+
+func play_outro() -> void:
+	if _animation_controller and _animation_controller.has_method("play_outro"):
+		_animation_controller.play_outro()
 
 
 func update_time(remaining_seconds: float) -> void:

@@ -1,6 +1,7 @@
 extends Control
 
 signal start_pressed(duration_seconds: float, outro_enabled: bool)
+signal open_theme_select_requested
 
 const HOURS_MIN := 0
 const HOURS_MAX := 24
@@ -24,11 +25,16 @@ var _theme_controller: Node = null
 @onready var hours_label = $VBoxContainer/HBoxContainer/HoursLabel
 @onready var minutes_label = $VBoxContainer/HBoxContainer/MinutesLabel
 @onready var seconds_label = $VBoxContainer/HBoxContainer/SecondsLabel
+@onready var animation_label = $VBoxContainer/AnimationThemeRow/AnimationLabel
+@onready var animation_theme_label = $VBoxContainer/AnimationThemeRow/AnimationThemeLabel
+@onready var change_theme_button = $VBoxContainer/AnimationThemeRow/ChangeThemeButton
 
 
 func _ready() -> void:
 	_apply_input_ranges()
 	start_button.focus_mode = Control.FOCUS_NONE
+	change_theme_button.focus_mode = Control.FOCUS_NONE
+	change_theme_button.pressed.connect(_on_change_theme_pressed)
 	hours_spinbox.get_line_edit().focus_exited.connect(_on_hours_focus_exited)
 	minutes_spinbox.get_line_edit().focus_exited.connect(_on_minutes_focus_exited)
 	seconds_spinbox.get_line_edit().focus_exited.connect(_on_seconds_focus_exited)
@@ -76,6 +82,14 @@ func set_theme_controller(controller: Node) -> void:
 	_apply_scaled_fonts()
 
 
+func set_animation_theme_display_name(display_name: String) -> void:
+	animation_theme_label.text = display_name
+
+
+func _on_change_theme_pressed() -> void:
+	emit_signal("open_theme_select_requested")
+
+
 func apply_scaled_fonts() -> void:
 	_apply_scaled_fonts()
 
@@ -91,6 +105,9 @@ func _apply_scaled_fonts() -> void:
 	var base_body: int = _theme_controller.get_font_size("body") if _theme_controller.has_method("get_font_size") else 18
 
 	title_label.add_theme_font_size_override("font_size", int(base_title * scale_factor))
+	animation_label.add_theme_font_size_override("font_size", int(base_body * scale_factor))
+	animation_theme_label.add_theme_font_size_override("font_size", int(base_body * scale_factor))
+	change_theme_button.add_theme_font_size_override("font_size", int(base_body * scale_factor))
 	hours_label.add_theme_font_size_override("font_size", int(base_body * scale_factor))
 	minutes_label.add_theme_font_size_override("font_size", int(base_body * scale_factor))
 	seconds_label.add_theme_font_size_override("font_size", int(base_body * scale_factor))

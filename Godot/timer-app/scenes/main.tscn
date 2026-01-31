@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://c0safe4re4root" path="res://scenes/ui/SafeAreaRoot.tscn" id="4_safe"]
 [ext_resource type="PackedScene" uid="uid://d01jwr4g2s6vx" path="res://scenes/ui/SetupScreen.tscn" id="5_setup"]
 [ext_resource type="PackedScene" uid="uid://f0f7ynvy8vt2" path="res://scenes/ui/RunScreen.tscn" id="6_run"]
+[ext_resource type="PackedScene" uid="uid://b5theme_select_screen" path="res://scenes/ui/ThemeSelectScreen.tscn" id="8_theme_select"]
 [ext_resource type="PackedScene" path="res://scenes/ui/DebugMenu.tscn" id="7_debug"]
 
 [node name="Main" type="Node" unique_id=1691925178]
@@ -26,6 +27,9 @@ script = ExtResource("3_tipki")
 [node name="SetupScreen" parent="UI/SafeAreaRoot" unique_id=1127414695 instance=ExtResource("5_setup")]
 
 [node name="RunScreen" parent="UI/SafeAreaRoot" unique_id=986875311 instance=ExtResource("6_run")]
+visible = false
+
+[node name="ThemeSelectScreen" parent="UI/SafeAreaRoot" unique_id=1127414696 instance=ExtResource("8_theme_select")]
 visible = false
 
 [node name="DebugMenu" parent="UI" instance=ExtResource("7_debug")]
