@@ -4,6 +4,7 @@ extends Node
 @onready var theme_controller = $ThemeController
 @onready var run_screen = $UI/SafeAreaRoot/RunScreen
 @onready var setup_screen = $UI/SafeAreaRoot/SetupScreen
+@onready var debug_menu = $UI/DebugMenu
 @onready var animation_controller = $AnimationRoot/CatScene/AnimationController
 
 
@@ -21,6 +22,7 @@ func _ready():
 	timer_controller.finished.connect(_on_timer_finished)
 
 	setup_screen.start_pressed.connect(_on_start_pressed)
+	debug_menu.return_to_setup_requested.connect(_on_debug_return_to_setup)
 
 	run_screen.visible = false
 	setup_screen.visible = true
@@ -41,3 +43,9 @@ func _on_start_pressed(duration_seconds: float, outro_enabled: bool) -> void:
 func _on_timer_finished():
 	print("Timer done")
 	# Later: show celebration screen, play sound, etc.
+
+
+func _on_debug_return_to_setup() -> void:
+	timer_controller.stop_timer()
+	run_screen.visible = false
+	setup_screen.visible = true
