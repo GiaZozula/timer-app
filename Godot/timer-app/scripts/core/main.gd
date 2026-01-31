@@ -26,14 +26,15 @@ func _ready():
 	setup_screen.visible = true
 
 
-func _on_start_pressed(duration_seconds: float):
+func _on_start_pressed(duration_seconds: float, outro_enabled: bool) -> void:
 	setup_screen.visible = false
 	run_screen.visible = true
 
 	timer_controller.start_timer(
 		duration_seconds,
 		theme_controller.get_event_interval_min(),
-		theme_controller.get_event_interval_max()
+		theme_controller.get_event_interval_max(),
+		outro_enabled
 	)
 
 

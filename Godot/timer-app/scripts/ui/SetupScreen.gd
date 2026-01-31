@@ -1,6 +1,6 @@
 extends Control
 
-signal start_pressed(duration_seconds: float)
+signal start_pressed(duration_seconds: float, outro_enabled: bool)
 
 const HOURS_MIN := 0
 const HOURS_MAX := 24
@@ -10,12 +10,15 @@ const SECONDS_MIN := 0
 const SECONDS_MAX := 59
 const MIN_DURATION_SECONDS := 5.0
 const MAX_DURATION_SECONDS := 24.0 * 3600.0
+## Minimum timer length when outro is on (outro length; defined outside animation data).
+const OUTRO_DURATION_SECONDS := 5.0
 
 var _theme_controller: Node = null
 
 @onready var hours_spinbox = $VBoxContainer/HBoxContainer/HoursSpinBox
 @onready var minutes_spinbox = $VBoxContainer/HBoxContainer/MinutesSpinBox
 @onready var seconds_spinbox = $VBoxContainer/HBoxContainer/SecondsSpinBox
+@onready var outro_check = $VBoxContainer/OutroCheck
 @onready var start_button = $VBoxContainer/StartButton
 @onready var title_label = $VBoxContainer/TitleLabel
 @onready var hours_label = $VBoxContainer/HBoxContainer/HoursLabel
@@ -91,6 +94,7 @@ func _apply_scaled_fonts() -> void:
 	hours_label.add_theme_font_size_override("font_size", int(base_body * scale_factor))
 	minutes_label.add_theme_font_size_override("font_size", int(base_body * scale_factor))
 	seconds_label.add_theme_font_size_override("font_size", int(base_body * scale_factor))
+	outro_check.add_theme_font_size_override("font_size", int(base_body * scale_factor))
 
 
 func _on_start_pressed() -> void:
@@ -103,9 +107,16 @@ func _on_start_pressed() -> void:
 	hours_spinbox.value = hours
 	minutes_spinbox.value = minutes
 	seconds_spinbox.value = seconds
+	var outro_on: bool = outro_check.button_pressed
+	var min_duration: float = OUTRO_DURATION_SECONDS if outro_on else MIN_DURATION_SECONDS
 	if hours == 0.0 and minutes == 0.0 and seconds == 0.0:
-		seconds = MIN_DURATION_SECONDS
-		seconds_spinbox.value = MIN_DURATION_SECONDS
+		seconds = min_duration
+		seconds_spinbox.value = min_duration
 	var total: float = hours * 3600.0 + minutes * 60.0 + seconds
-	var clamped := clampf(total, MIN_DURATION_SECONDS, MAX_DURATION_SECONDS)
-	emit_signal("start_pressed", clamped)
+	var clamped := clampf(total, min_duration, MAX_DURATION_SECONDS)
+	if outro_on and clamped < OUTRO_DURATION_SECONDS:
+		clamped = OUTRO_DURATION_SECONDS
+		seconds_spinbox.value = OUTRO_DURATION_SECONDS
+		minutes_spinbox.value = 0.0
+		hours_spinbox.value = 0.0
+	emit_signal("start_pressed", clamped, outro_on)

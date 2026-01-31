@@ -67,6 +67,11 @@ min_value = 0.0
 max_value = 59.0
 value = 0.0
 
+[node name="OutroCheck" type="CheckButton" parent="VBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Play outro at end"
+
 [node name="StartButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Start"
