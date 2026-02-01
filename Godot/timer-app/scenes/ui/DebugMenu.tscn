@@ -57,6 +57,16 @@ theme_override_constants/margin_bottom = 16
 layout_mode = 2
 theme_override_constants/separation = 8
 
+[node name="DebugThemeCheck" type="CheckButton" parent="MenuPanel/MarginContainer/VBox"]
+layout_mode = 2
+button_pressed = true
+text = "Enable debug theme"
+
+[node name="ResetDebugThemeButton" type="Button" parent="MenuPanel/MarginContainer/VBox"]
+layout_mode = 2
+text = "Reset debug theme"
+size_flags_horizontal = 4
+
 [node name="ReturnToSetupButton" type="Button" parent="MenuPanel/MarginContainer/VBox"]
 layout_mode = 2
 text = "Return to setup"

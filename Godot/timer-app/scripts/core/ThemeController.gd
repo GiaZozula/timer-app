@@ -26,6 +26,11 @@ func load_theme(path: String):
 	theme_data = json.data
 
 
+## Sets theme data from a dictionary (in-memory / injected theme, e.g. debug). Same keys as theme JSON.
+func set_theme_data(data: Dictionary) -> void:
+	theme_data = data
+
+
 func get_idle_animation() -> String:
 	return theme_data.get("idle", "")
 

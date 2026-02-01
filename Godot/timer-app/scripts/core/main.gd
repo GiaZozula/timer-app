@@ -4,6 +4,9 @@ const ANIMATION_THEMES_PATH := "res://data/animation_themes.json"
 
 var _animation_themes: Array = []
 var _selected_theme_id: String = ""
+## Optional theme injected at runtime (e.g. from debug menu). When enabled, included in theme selector and start flow.
+var _injected_theme: Dictionary = {}
+var _injected_theme_enabled: bool = false
 
 @onready var timer_controller = $TimerController
 @onready var theme_controller = $ThemeController
@@ -22,7 +25,7 @@ func _ready():
 	run_screen.set_theme_controller(theme_controller)
 	run_screen.apply_scaled_fonts()
 	theme_select_screen.set_theme_controller(theme_controller)
-	theme_select_screen.set_themes(_animation_themes)
+	theme_select_screen.set_themes(_get_theme_list_for_selector())
 	theme_select_screen.apply_scaled_fonts()
 
 	timer_controller.tick.connect(run_screen.update_time)
@@ -35,6 +38,13 @@ func _ready():
 	theme_select_screen.theme_selected.connect(_on_theme_selected)
 	theme_select_screen.back_requested.connect(_on_theme_select_back)
 	debug_menu.return_to_setup_requested.connect(_on_debug_return_to_setup)
+	# Injected (debug) theme: optional signals; only connected if debug menu exposes them.
+	if debug_menu.has_signal("injected_theme_enabled_changed"):
+		debug_menu.injected_theme_enabled_changed.connect(_on_injected_theme_enabled_changed)
+	if debug_menu.has_signal("injected_theme_data_changed"):
+		debug_menu.injected_theme_data_changed.connect(_on_injected_theme_data_changed)
+	if debug_menu.has_method("request_injected_theme_broadcast"):
+		debug_menu.request_injected_theme_broadcast()
 
 	run_screen.visible = false
 	theme_select_screen.visible = false
@@ -67,11 +77,60 @@ func _set_default_selected_theme() -> void:
 	_selected_theme_id = first.get("id", "")
 
 
+# ---- Injected (debug) theme support ----
+# Optional theme supplied at runtime (e.g. debug menu). No file path; theme data set via ThemeController.set_theme_data.
+# All callers use the same theme list and lookup; injected theme is merged in when enabled.
+
+func set_injected_theme_enabled(enabled: bool) -> void:
+	_injected_theme_enabled = enabled
+	_refresh_theme_list_and_selection()
+
+
+func set_injected_theme(data: Dictionary) -> void:
+	_injected_theme = data
+	_refresh_theme_list_and_selection()
+
+
+func _get_theme_list_for_selector() -> Array:
+	var list: Array = _animation_themes.duplicate()
+	if _injected_theme_enabled and not _injected_theme.is_empty():
+		list.append(_injected_theme)
+	return list
+
+
+func _refresh_theme_list_and_selection() -> void:
+	theme_select_screen.set_themes(_get_theme_list_for_selector())
+	var injected_id: String = _injected_theme.get("id", "")
+	if _selected_theme_id == injected_id and not _injected_theme_enabled:
+		_set_default_selected_theme()
+		setup_screen.set_animation_theme_display_name(_get_selected_display_name())
+	elif _injected_theme_enabled and _selected_theme_id.is_empty() and not _animation_themes.is_empty():
+		setup_screen.set_animation_theme_display_name(_get_selected_display_name())
+
+
 func _get_theme_by_id(theme_id: String) -> Dictionary:
 	for t in _animation_themes:
 		if t.get("id", "") == theme_id:
 			return t
+	if _injected_theme_enabled and _injected_theme.get("id", "") == theme_id:
+		return _injected_theme
 	return {}
+
+
+func _theme_payload_from_dict(d: Dictionary) -> Dictionary:
+	var payload: Dictionary = {}
+	for key in ["idle", "events", "outro", "event_interval", "audio"]:
+		if d.has(key):
+			payload[key] = d[key]
+	return payload
+
+
+func _on_injected_theme_enabled_changed(enabled: bool) -> void:
+	set_injected_theme_enabled(enabled)
+
+
+func _on_injected_theme_data_changed(data: Dictionary) -> void:
+	set_injected_theme(data)
 
 
 func _get_selected_display_name() -> String:
@@ -100,12 +159,16 @@ func _on_start_pressed(duration_seconds: float, outro_enabled: bool) -> void:
 	var theme_dict := _get_theme_by_id(_selected_theme_id)
 	if theme_dict.is_empty():
 		return
-	var theme_path: String = theme_dict.get("theme_path", "")
 	var scene_path: String = theme_dict.get("scene_path", "")
-	if theme_path.is_empty() or scene_path.is_empty():
+	if scene_path.is_empty():
 		return
 
-	theme_controller.load_theme(theme_path)
+	var theme_path: String = theme_dict.get("theme_path", "")
+	if theme_path.is_empty():
+		# Injected theme: no file; set theme data from dict.
+		theme_controller.set_theme_data(_theme_payload_from_dict(theme_dict))
+	else:
+		theme_controller.load_theme(theme_path)
 	run_screen.set_animation_scene(scene_path)
 	run_screen.play_idle()
 
