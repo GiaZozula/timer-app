@@ -17,6 +17,8 @@ config/icon="res://icon.svg"
 
 [display]
 
+window/size/viewport_width=375
+window/size/viewport_height=812
 window/handheld/orientation=1
 
 [physics]
