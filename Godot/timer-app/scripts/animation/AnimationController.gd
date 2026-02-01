@@ -10,7 +10,6 @@ var state := State.IDLE
 
 func _ready():
 	animation_player.animation_finished.connect(_on_animation_finished)
-	play_idle()
 
 
 func play_idle():

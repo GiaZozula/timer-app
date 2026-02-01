@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://debug_theme_scene"]
+
+[ext_resource type="Script" path="res://scripts/animation/DebugThemeScene.gd" id="1_debug"]
+[ext_resource type="Script" uid="uid://b6js2id1ksxqd" path="res://scripts/animation/AnimationController.gd" id="2_anim_ctrl"]
+
+[node name="DebugThemeScene" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_debug")
+
+[node name="StateDisplay" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.5, 0.5, 0.5, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="AnimationController" type="Node" parent="."]
+script = ExtResource("2_anim_ctrl")
+
+[node name="InfoOverlay" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="InfoOverlay"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InfoOverlay/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="BoundsLabel" type="Label" parent="InfoOverlay/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Bounds: —"
+
+[node name="StateLabel" type="Label" parent="InfoOverlay/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "State: —"
+
+[node name="InfoLabel" type="Label" parent="InfoOverlay/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "—"
+autowrap_mode = 2

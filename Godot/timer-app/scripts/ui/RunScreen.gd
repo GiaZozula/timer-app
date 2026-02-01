@@ -1,10 +1,12 @@
 extends Control
 
 var _theme_controller: Node = null
+## Reference to the instanced scene's AnimationController; used to forward play_idle/event/outro from timer.
 var _animation_controller: Node = null
 
 @onready var time_label = $VBoxContainer/TimerStrip/CenterContainer/TimeLabel
 @onready var timer_strip = $VBoxContainer/TimerStrip
+## SubViewport where the selected animation scene (e.g. CatScene) is instanced.
 @onready var viewport = $VBoxContainer/AnimationArea/SubViewport
 
 

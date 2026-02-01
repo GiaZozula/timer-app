@@ -7,6 +7,9 @@ var _selected_theme_id: String = ""
 ## Optional theme injected at runtime (e.g. from debug menu). When enabled, included in theme selector and start flow.
 var _injected_theme: Dictionary = {}
 var _injected_theme_enabled: bool = false
+## Current run config (set when Start is pressed). Used only by get_display_info_for_animation() for debug scene.
+var _current_run_duration_seconds: float = 0.0
+var _current_run_outro_enabled: bool = false
 
 @onready var timer_controller = $TimerController
 @onready var theme_controller = $ThemeController
@@ -169,6 +172,8 @@ func _on_start_pressed(duration_seconds: float, outro_enabled: bool) -> void:
 		theme_controller.set_theme_data(_theme_payload_from_dict(theme_dict))
 	else:
 		theme_controller.load_theme(theme_path)
+	_current_run_duration_seconds = duration_seconds
+	_current_run_outro_enabled = outro_enabled
 	run_screen.set_animation_scene(scene_path)
 	run_screen.play_idle()
 
@@ -180,6 +185,17 @@ func _on_start_pressed(duration_seconds: float, outro_enabled: bool) -> void:
 		theme_controller.get_event_interval_max(),
 		outro_enabled
 	)
+
+
+## Returns current run config (duration, outro, intervals). Used only by debug animation scene.
+func get_display_info_for_animation() -> Dictionary:
+	return {
+		"duration_seconds": _current_run_duration_seconds,
+		"outro_enabled": _current_run_outro_enabled,
+		"outro_duration_seconds": timer_controller.OUTRO_DURATION,
+		"event_interval_min": theme_controller.get_event_interval_min(),
+		"event_interval_max": theme_controller.get_event_interval_max()
+	}
 
 
 func _on_timer_finished():

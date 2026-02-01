@@ -67,11 +67,11 @@ func _get_default_debug_theme_data() -> Dictionary:
 	return {
 		"id": "debug",
 		"display_name": "Debug (testing)",
-		"scene_path": "res://scenes/animation/CatScene.tscn",
+		"scene_path": "res://scenes/animation/DebugThemeScene.tscn",
 		"idle": "idle",
 		"events": ["walk", "play"],
 		"outro": "sleep",
-		"event_interval": { "min": 20, "max": 40 },
+		"event_interval": { "min": 8, "max": 14 },
 		"audio": { "bg": "birds.ogg", "outro": "bell.ogg" }
 	}
 
